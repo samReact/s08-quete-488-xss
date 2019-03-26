@@ -6,9 +6,10 @@ const passport = require("passport");
 const { check, validationResult } = require("express-validator/check");
 
 require("./authentication-setup");
-const { createMessage, getMessages, seedUsers } = require("./data-interface");
+const dataInterface = require("./data-interface");
+// const { createMessage, getMessages, seedUsers } = require("./data-interface");
 global.cache = cache;
-seedUsers();
+dataInterface.seedUsers();
 
 const app = express()
   .use(bodyParser.urlencoded({ extended: true }))
@@ -24,7 +25,9 @@ const app = express()
 
 // Requests that do not require authentication
 app
-  .get("/messages", (_, res) => res.send({ messages: getMessages() }))
+  .get("/messages", (_, res) =>
+    res.send({ messages: dataInterface.getMessages() })
+  )
   .post("/login", (req, res, next) => {
     passport.authenticate("local", (error, user) => {
       if (error) {
@@ -70,19 +73,13 @@ app
         return res.status(400).send({ errors: getErrorAsObject(errors) });
       }
 
-      createMessage(req.user.username, content, personalWebsiteURL);
-      return res.status(201).send({ messages: getMessages() });
+      dataInterface.createMessage(
+        req.user.username,
+        content,
+        personalWebsiteURL
+      );
+      return res.status(201).send({ messages: dataInterface.getMessages() });
     }
   );
 
 module.exports = app;
-
-// app.listen(
-//   4000,
-//   () => {
-//     console.log("Error running express server.");
-//   },
-//   () => {
-//     console.log("Express server listening on port 4000.");
-//   }
-// );

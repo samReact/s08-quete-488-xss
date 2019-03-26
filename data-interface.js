@@ -1,22 +1,22 @@
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require("uuid/v4");
 
 const USERS = [
   {
-    username: 'randombrandon',
-    password: 'randompassword',
+    username: "randombrandon",
+    password: "randompassword"
   },
   {
-    username: 'whateverkimber',
-    password: 'whateverpassword',
-  },
+    username: "whateverkimber",
+    password: "whateverpassword"
+  }
 ];
 
 const seedUsers = () => {
-  cache.put('users', USERS);
+  cache.put("users", USERS);
 };
 
 const findUser = username => {
-  return cache.get('users').find(user => user.username === username);
+  return cache.get("users").find(user => user.username === username);
 };
 
 const createMessage = (username, content, personalWebsiteURL) => {
@@ -24,19 +24,19 @@ const createMessage = (username, content, personalWebsiteURL) => {
     id: uuidv4(),
     username,
     content,
-    personalWebsiteURL,
+    personalWebsiteURL
   };
-  cache.put('messages', getMessages().concat(newMessage));
+  cache.put("messages", getMessages().concat(newMessage));
   return;
 };
 
 const getMessages = () => {
-  return cache.get('messages') || [];
+  return cache.get("messages") || [];
 };
 
 module.exports = {
   createMessage,
   findUser,
   getMessages,
-  seedUsers,
+  seedUsers
 };
