@@ -15,6 +15,7 @@ const app = express()
   .use(bodyParser.urlencoded({ extended: true }))
   .use(
     session({
+      cookie: { sameSite: true },
       secret: "secretKeyThatShouldBeInEnvironmentConfig",
       resave: false,
       saveUninitialized: true

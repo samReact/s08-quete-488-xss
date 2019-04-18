@@ -1,9 +1,5 @@
 const request = require("supertest");
-// let { createMessage } = require("./data-interface");
 const dataInterface = require("./data-interface");
-
-// const mockFunc = jest.mock(createMessage);
-
 const app = require("./app");
 const agent = request.agent(app);
 
